@@ -1,3 +1,5 @@
 env
 .env
 __pycache__
+backend/Pipfile
+backend/Pipfile.lock
