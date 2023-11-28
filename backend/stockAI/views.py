@@ -50,3 +50,6 @@ def index(request):
             "pretty": json.dumps(request.session.get("user"), indent=4),
         },
     )
+
+def predict(request):
+    return render(request, "predict.html")
