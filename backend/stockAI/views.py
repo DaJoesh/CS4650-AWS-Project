@@ -61,6 +61,7 @@ def index(request):
             "pretty": json.dumps(request.session.get("user"), indent=4),
         },
     )
+
 def get_lstm_prediction(ticker, start_date):
     
     end_date = date.today().strftime("%Y-%m-%d")
