@@ -64,5 +64,10 @@
         <input type="submit" value="Predict">
     </form>
     <h2>Prediction:</h2>
+    <ul>
+        {% for prediction in predictions %}
+            <li>{{ prediction.ticker }} - {{ prediction.prediction }}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
