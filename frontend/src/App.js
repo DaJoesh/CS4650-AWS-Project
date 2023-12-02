@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import Navbar from "./components/Navbar";
 import {
     BrowserRouter as Router,
@@ -9,7 +8,7 @@ import {
 import Home from "./pages";
 import About from "./pages/about";
 import Contact from "./pages/contact";
-import SignUp from "./pages/signup";
+import Predictor from "./pages/predictor";
  
 function App() {
     return (
@@ -18,14 +17,8 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
-                <Route
-                    path="/contact"
-                    element={<Contact />}
-                />
-                <Route
-                    path="/sign-up"
-                    element={<SignUp />}
-                />
+                <Route path="/contact" element={<Contact />}/>
+                <Route path= "/predictor" element={<Predictor />}/>
             </Routes>
         </Router>
     );

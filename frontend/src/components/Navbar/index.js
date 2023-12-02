@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import {
     Nav,
     NavLink,
@@ -9,6 +10,8 @@ import {
 } from "./NavbarElements";
  
 const Navbar = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+
     return (
         <>
             <Nav>
@@ -18,20 +21,18 @@ const Navbar = () => {
                     <NavLink to="/about" >
                         About
                     </NavLink>
-                    <NavLink to="/events" activeStyle>
-                        Events
-                    </NavLink>
-                    <NavLink to="/contacts" activeStyle>
+                    <NavLink to="/contact">
                         Contact Us
                     </NavLink>
-                    <NavLink to="/sign-up" activeStyle>
-                        Sign Up
-                    </NavLink>
+                    {isLoggedIn && 
+                    <NavLink to="/predictor">Stock Predictor</NavLink>}
+
 
                     {/* Second Nav */}
                     {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
                 </NavMenu>
                 <NavBtn>
+                    {/*link into the auth0 signin through this button*/}
                     <NavBtnLink to="/signin">
                         Sign In
                     </NavBtnLink>

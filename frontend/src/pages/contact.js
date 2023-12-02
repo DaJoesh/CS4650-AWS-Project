@@ -5,8 +5,8 @@ const About = () => {
         <div
             style={{
                 display: "flex",
-                justifyContent: "centre",
-                alignItems: "centre",
+                justifyContent: "center",
+                alignItems: "center",
                 height: "100vh",
             }}
         >
