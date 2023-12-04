@@ -4,6 +4,7 @@ from django.conf import settings
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from urllib.parse import quote_plus, urlencode
+
 from .models import StockPrediction
 import pandas as pd
 import numpy as np
@@ -15,6 +16,12 @@ from keras.layers import LSTM, Dense
 from keras.models import Sequential
 from keras.utils import plot_model
 import yfinance as yf
+
+from rest_framework.views import APIView
+from . models import *
+from rest_framework.response import Response
+from . serializer import *
+
 
 oauth = OAuth()
 
@@ -134,6 +141,7 @@ def get_lstm_prediction(ticker, start_date):
     return next_day_prediction[0, 0]
 
 def predict(request):
+
     if request.method == 'POST':
         ticker = request.POST['ticker']
         start_date = request.POST['startDate']
@@ -148,3 +156,18 @@ def predict(request):
     predictions = StockPrediction.objects.all()
 
     return render(request, 'predict.html', {'predictions': predictions})
+
+    return render(request, "predict.html")
+
+class ReactView(APIView):
+    def get(self, request):
+        output = [{"ticker": output.ticker,
+                    "startDate": output.startDate,
+                    "predictedValue": output.predictedValue}
+                    for output in React.objects.all()]
+        return Response(output)
+    def post(self, request):
+        serializer = ReactSerializer(date=request.data)
+        if serializer.is_value(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
