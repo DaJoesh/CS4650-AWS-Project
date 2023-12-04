@@ -14,5 +14,6 @@
             "username": "admin",
             "askForPassword": true
         }
-    ]
+    ],
+    "git.ignoreLimitWarning": true
 }
