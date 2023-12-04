@@ -4,6 +4,10 @@ from django.conf import settings
 from django.shortcuts import redirect, render, redirect
 from django.urls import reverse
 from urllib.parse import quote_plus, urlencode
+from rest_framework.views import APIView
+from . models import *
+from rest_framework.response import Response
+from . serializer import *
 
 oauth = OAuth()
 
@@ -53,3 +57,16 @@ def index(request):
 
 def predict(request):
     return render(request, "predict.html")
+
+class ReactView(APIView):
+    def get(self, request):
+        output = [{"ticker": output.ticker,
+                    "startDate": output.startDate,
+                    "predictedValue": output.predictedValue}
+                    for output in React.objects.all()]
+        return Response(output)
+    def post(self, request):
+        serializer = ReactSerializer(date=request.data)
+        if serializer.is_value(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
