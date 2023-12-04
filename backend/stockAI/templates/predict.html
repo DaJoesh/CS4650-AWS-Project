@@ -55,6 +55,7 @@
 <body>
     <h1>Stock Prediction</h1>
     <form action="{% url 'predict' %}" method="post">
+        {% csrf_token %}
         <label for="ticker">Ticker:</label>
         <input type="text" id="ticker" name="ticker" required><br><br>
 
@@ -64,5 +65,10 @@
         <input type="submit" value="Predict">
     </form>
     <h2>Prediction:</h2>
+    <ul>
+        {% for prediction in predictions %}
+            <li>{{ prediction.ticker }} - {{ prediction.prediction }}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
