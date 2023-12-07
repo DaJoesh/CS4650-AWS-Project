@@ -140,8 +140,7 @@ def get_lstm_prediction(ticker, start_date):
     next_day = df.index[-1] + pd.Timedelta(days=1)
     return next_day_prediction[0, 0]
 
-def predict(request):
-
+def predict(request, display_type="All", specified_ticker=""):
     if request.method == 'POST':
         ticker = request.POST['ticker']
         start_date = request.POST['startDate']
@@ -153,11 +152,18 @@ def predict(request):
         StockPrediction.objects.create(ticker=ticker, start_date=start_date, prediction=lstm_prediction)
 
     # Retrieve predictions from the database
-    predictions = StockPrediction.objects.all()
+    if display_type == "All":
+        predictions = StockPrediction.objects.all()
+    elif display_type == "Ordered":
+        predictions = StockPrediction.objects.all().order_by('ticker')
+    elif display_type == "Specific":
+        predictions = StockPrediction.objects.filter(ticker=specified_ticker)
+    else:
+        predictions = StockPrediction.objects.all()
 
     return render(request, 'predict.html', {'predictions': predictions})
 
-    return render(request, "predict.html")
+    # return render(request, "predict.html")
 
 class ReactView(APIView):
     def get(self, request):
