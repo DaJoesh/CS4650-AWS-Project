@@ -9,8 +9,9 @@ import Home from "./pages";
 import About from "./pages/about";
 import Contact from "./pages/contact";
 import Predictor from "./pages/predictor";
+import axios from 'axios';
  
-function App() {
+function App()  {
     return (
         <Router>
             <Navbar />

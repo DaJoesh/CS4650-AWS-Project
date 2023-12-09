@@ -4,7 +4,6 @@ from django.conf import settings
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from urllib.parse import quote_plus, urlencode
-
 from .models import StockPrediction
 import pandas as pd
 import numpy as np
@@ -160,11 +159,12 @@ def predict(request):
     return render(request, "predict.html")
 
 class ReactView(APIView):
+    seralizer_class = ReactSerializer
     def get(self, request):
         output = [{"ticker": output.ticker,
                     "startDate": output.startDate,
                     "predictedValue": output.predictedValue}
-                    for output in React.objects.all()]
+                    for output in StockPrediction.objects.all()]
         return Response(output)
     def post(self, request):
         serializer = ReactSerializer(date=request.data)
