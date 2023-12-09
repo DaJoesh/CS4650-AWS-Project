@@ -11,28 +11,16 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from decouple import config
-import os
-from pathlib import Path
-from dotenv import load_dotenv, find_dotenv
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-TEMPLATE_DIR = os.path.join(BASE_DIR, "webappexample", "templates")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load environment definition file
-ENV_FILE = find_dotenv()
-if ENV_FILE:
-    load_dotenv(ENV_FILE)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-eeya_i8(e#d39u4r+zs461539#rztby&0ziz#@e%-#5)r)&4tu'
+SECRET_KEY = 'django-insecure-)g5s24a)v&av7lmfc0a#fya=28nhg@gn(@_95nsw0_^ylqrtlh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -49,30 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'stockAI',
-    'social_django',
+    'app',
     'rest_framework',
     'corsheaders',
-
 ]
-
-
-# SOCIAL_AUTH_TRAILING_SLASH=False
-# SOCIAL_AUTH_AUTH0_DOMAIN=config('APP_DOMAIN')
-# SOCIAL_AUTH_AUTH0_KEY=config('APP_CLIENT_ID')
-# SOCIAL_AUTH_AUTH0_SECRET=config('APP_CLIENT_SECRET')
-
-# SOCIAL_AUTH_AUTH0_SCOPE=[
-#     'openid',
-#     'profile',
-#     'email'
-# ]
-
-# AUTHENTICATION_BACKENDS={
-#     'social_core.backends.auth0.Auth0OAuth2',
-#     'django.contrib.auth.backends.ModelBackend'
-# }
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -82,10 +50,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
-REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES' : ['rest_framework.permissions.AllowAny']}
+
+REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES' : ['rest_framework.permission.AllowAny']}
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -94,7 +63,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -112,14 +81,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+
 DATABASES = {
-    'default':{  
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'stockpredict',
-        'USER': 'admin',
-        'PASSWORD': os.environ.get("DB_PASSWORD"),
-        'HOST': os.environ.get("DB_HOST"),
-        'PORT': 3306
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -164,14 +130,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# LOGIN_URL='login/auth0'
-# LOGIN_REDIRECT_URL='/'
-# LOGOUT_REDIRECT_URL='/'
-
-
-# Load Auth0 application settings into memory
-AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
-AUTH0_CLIENT_ID = os.environ.get("AUTH0_CLIENT_ID")
-AUTH0_CLIENT_SECRET = os.environ.get("AUTH0_CLIENT_SECRET")
