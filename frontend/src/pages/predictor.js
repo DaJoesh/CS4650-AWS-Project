@@ -20,11 +20,12 @@ const Predictor = () => {
             const formattedDateInput = dateObject.toISOString().split('T')[0];
     
             if (formattedDateInput) {
+                console.log(dateInput)
                 const response = await axios.post(
                     'http://127.0.0.1:8000/',
                     {
                         ticker: tickerInput,
-                        date: dateInput,
+                        startDate: dateInput,
                     },
                     {
                         headers: {
@@ -53,7 +54,7 @@ const fetchData = async () => {
         const response = await axios.get('http://127.0.0.1:8000/', {
             params: {
                 ticker: tickerInput,
-                date: dateInput
+                startDate: dateInput
             }
         });
 
