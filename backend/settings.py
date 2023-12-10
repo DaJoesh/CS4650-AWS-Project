@@ -54,11 +54,13 @@ MIDDLEWARE = [
 ]
 
 
-REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES' : ['rest_framework.permission.AllowAny']}
+REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES' : ['rest_framework.permissions.AllowAny']}
 
 CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'backend.urls'
+
+DATE_INPUT_FORMATS = ['%m-%d-%Y']
 
 TEMPLATES = [
     {

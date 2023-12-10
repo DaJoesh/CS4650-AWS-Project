@@ -11,18 +11,20 @@ import Contact from "./pages/contact";
 import Predictor from "./pages/predictor";
 import axios from 'axios';
  
-function App()  {
-    return (
-        <Router>
-            <Navbar />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />}/>
-                <Route path= "/predictor" element={<Predictor />}/>
-            </Routes>
-        </Router>
-    );
+class App extends React.Component  { 
+    render(){
+        return (
+            <Router>
+                <Navbar />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />}/>
+                    <Route path= "/predictor" element={<Predictor />}/>
+                </Routes>
+            </Router>
+        );
+    }
 }
  
 export default App;
