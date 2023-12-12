@@ -27,14 +27,11 @@ const Navbar = () => {
                     {isLoggedIn && 
                     <NavLink to="/predictor">Stock Predictor</NavLink>}
 
-
-                    {/* Second Nav */}
-                    {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
                 </NavMenu>
                 <NavBtn>
                     {/*link into the auth0 signin through this button*/}
-                    <NavBtnLink to="/signin">
-                        Sign In
+                    <NavBtnLink to="/login">
+                        Login
                     </NavBtnLink>
                 </NavBtn>
             </Nav>

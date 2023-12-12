@@ -170,10 +170,10 @@ class ReactView(APIView):
         output = [{"ticker": output.ticker,
                     "startDate": output.startDate,
                     "predictedValue": output.predictedValue}
-                    for output in React.objects.all()]
+                    for output in StockPrediction.objects.all()]
         return Response(output)
     def post(self, request):
         serializer = ReactSerializer(date=request.data)
-        if serializer.is_value(raise_exception=True):
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)

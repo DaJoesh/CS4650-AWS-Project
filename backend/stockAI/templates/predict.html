@@ -67,7 +67,7 @@
     <h2>Prediction:</h2>
     <ul>
         {% for prediction in predictions %}
-            <li>{{ prediction.ticker }} - {{ prediction.prediction }}</li>
+            <li>{{ prediction.ticker }} - {{ prediction.prediction }} - {{ prediction.startDate }}</li>
         {% endfor %}
     </ul>
 </body>

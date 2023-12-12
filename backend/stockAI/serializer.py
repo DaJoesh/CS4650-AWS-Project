@@ -3,5 +3,5 @@ from .models import *
 
 class ReactSerializer(serializers.ModelSerializer):
     class Meta: 
-        model = React
+        model = StockPrediction
         fields = ['ticker', 'startDate', 'predictedValue']
