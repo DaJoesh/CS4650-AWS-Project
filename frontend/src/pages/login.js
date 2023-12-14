@@ -1,54 +1,48 @@
 import React, { useState } from "react";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function Login({ navigation }) {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Perform authentication logic here (e.g., API call, validation)
-    console.log("Email:", email);
-    console.log("Password:", password);
+  function handleChange(name, value) {
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  }
 
-    // Reset fields after handling login
-    setEmail("");
-    setPassword("");
-  };
-
-  function validateEmail(email) {
-    const mail = String(email);
-    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.(com|edu)$/;
-    return emailRegex.test(mail);
+  function handleSubmit() {
+    const email = formData.email;
+    const password = formData.password;
+    // Your validation logic goes here
+    // Handle form submission and API calls here
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <form onSubmit={handleLogin}>
+    <div className="container">
+
+      <div className="infoCard">
+        <h2>Email</h2>
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+          type="text"
+          value={formData.email}
+          placeholder="johndoe@abc.com"
+          onChange={(e) => handleChange("email", e.target.value)}
         />
+        <h2>Password</h2>
         <input
           type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
+          value={formData.password}
+          placeholder="MyPassword123"
+          onChange={(e) => handleChange("password", e.target.value)}
         />
-        <button type="submit">Login</button>
-      </form>
+        <div className="horizontalButtonContainer">
+          <button onClick={handleSubmit}>Log In</button>
+          <button onClick={() => navigation.navigate("Signup")}>Sign Up</button>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default Login;
+}

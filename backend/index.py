@@ -210,6 +210,32 @@ def delete_user(user_id):
         error_message = {"error": f"Error deleting user and associated data: {str(e)}"}
         return jsonify(error_message)
 
+# READ - Get all predictions
+@app.route("/stockpredict/<user_id>", methods=["GET"])
+def get_all_predictions(user_id):
+    try:
+        predictions = StockPredict.query.filter(
+            StockPredict.user_id == user_id
+        ).order_by(StockPredict.timestamp.desc()).limit(5).all()
+    
+        if not predictions:
+            return jsonify({"message": "No predictions found for this user"})
+        
+        prediction_list = []
+        for prediction in predictions:
+            prediction_list.append({
+                "ticker": prediction.ticker,
+                "date": prediction.date,
+                "timestamp": prediction.timestamp,
+                "predicted_value": prediction.predicted_value
+            })
+
+        return jsonify(prediction_list)
+
+    except Exception as e:
+        error_message = {"error": f"Error fetching predictions: {str(e)}"}
+        return jsonify(error_message)
+
 # Run the Flask app in the main thread
 if __name__ == "__main__":
     app.run(host="localhost", port=3000)
