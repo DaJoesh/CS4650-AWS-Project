@@ -28,8 +28,8 @@ const Predictor = () => {
 
         if (response.ok) {
             const data = await response.json();
-            setMessage(data.message); // Assuming the Flask server sends back a JSON with a 'message' key
-            fetchPredictions(); // Fetch predictions after submitting the form
+            setPredictedValue(data.next_day_prediction); // Update predicted value in state
+            setMessage('Prediction retrieved successfully');
         } else {
             setMessage('Failed to process data');
         }
@@ -41,34 +41,8 @@ const Predictor = () => {
     }
 };
 
-    const fetchPredictions = async () => {
-    try {
-        const response = await fetch(`/predict?ticker=${tickerInput}&date=${dateInput}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            setPredictedValue(data); // Assuming the response contains the predicted value
-        } else {
-            setPredictedValue('Failed to fetch prediction');
-        }
-    } catch (error) {
-        console.error('Error fetching prediction:', error);
-    }
-};
-
-useEffect(() => {
-    if (tickerInput !== '' && dateInput !== '') {
-        fetchPredictions();
-    }
-}, [tickerInput, dateInput]);
-
     useEffect(() => {
-            fetch('/predict/${user_id}', {method: 'GET', headers: {'Content-Type':'application/json',},}) 
+            fetch('http://127.0.0.1:5000/predict/${user_id}', {method: 'GET', headers: {'Content-Type':'application/json',},}) 
                 .then(res => res.json())
                 .then(data => {
                     const history = data.map(predictionInput => {

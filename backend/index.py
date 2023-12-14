@@ -353,4 +353,4 @@ def get_all_predictions(user_id):
 
 # Run the Flask app in the main thread
 if __name__ == "__main__":
-    app.run(host="localhost", port=3000)
+    app.run(host="localhost", port=5000)
