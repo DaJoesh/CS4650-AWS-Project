@@ -6,6 +6,7 @@ const Predictor = () => {
     const [tickerInput, setTickerInput] = useState('');
     const [dateInput, setDateInput] = useState('');
     const [predictedValue, setPredictedValue] = useState('');
+    const [userHistory, setUserHistory] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -51,6 +52,39 @@ const Predictor = () => {
                 });
             }
     }, [tickerInput, dateInput]);
+
+    useEffect(() => {
+            fetch('/predict/${user_id}', {method: 'GET', headers: {'Content-Type':'application/json',},}) 
+                .then(res => res.json())
+                .then(data => {
+                    const history = data.map(predictionInput => {
+                        const formattedDate = formatDate(predictionInput.timestamp);
+                        return {
+                            ticker: predictionInput.ticker,
+                            date: predictionInput.date,
+                            predicted_value: predictionInput.predicted_value,
+                            timestamp: formattedDate
+                        };
+                    });
+                    setUserHistory(history);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+            }, []);
+
+/* userhistory will contain an array of objects each representing one of the five entries a user had*/
+
+    function formatDate(date) {
+        const dateSlices = date.split(" ");
+        const month =
+            monthNames.findIndex((element) => element.includes(dateSlices[2])) + 1;
+        const day = dateSlices[1];
+        const year = dateSlices[3].slice(2);
+        const formattedDate = `${month}/${day}/${year}`;
+        return formattedDate;
+    }
+
 
     return (
         <div
@@ -103,13 +137,7 @@ const Predictor = () => {
             </form>
             <div style={{ display: 'flex' }}>
                 <ul>
-                    <li> prediction.ticker  -  prediction.prediction </li>
-                </ul>
-                <ul>
-                    <li> predictionordered.ticker  -  predictionordered.prediction </li>
-                </ul>
-                <ul>
-                    <li> predictionspecific.ticker  -  predictionspecific.prediction </li>
+                    <li> prediction.ticker  -  prediction.prediction {userHistory} </li>
                 </ul>
             </div>
         </div>
