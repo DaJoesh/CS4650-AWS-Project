@@ -7,9 +7,17 @@ from flask import Flask, render_template, request, url_for, redirect, jsonify, s
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy import and_, extract
-import datetime
 from flask_bcrypt import Bcrypt
-
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from datetime import date, datetime
+from sklearn.model_selection import TimeSeriesSplit
+from sklearn.preprocessing import MinMaxScaler
+from keras.layers import LSTM, Dense
+from keras.models import Sequential
+from keras.utils import plot_model
+import yfinance as yf
 from sqlalchemy.sql import func
 
 ENV_FILE = find_dotenv()
@@ -139,10 +147,10 @@ def add_user():
         if(data.get('name') == '' or data.get('name') is None or data.get('email') == '' or data.get('email') is None or data.get('password') == '' or data.get('password') is None):
             raise Exception("Name or Email or password not specified")
 
-        email = data.get('email')
+        email = data.get("email")
         name = data.get("name")
         unhashed_password = data.get("password")
-        #hashed_password = Bcrypt.generate_password_hash(unhashed_password).decode('utf-8') 
+        hashed_password = bcrypt.generate_password_hash(unhashed_password).decode('utf-8') 
 
         # Check to see if user already exists in server
         curr_user = db.session.query(User).filter(User.email == email).all() 
@@ -150,7 +158,7 @@ def add_user():
             raise Exception("User already signed up")
 
         ## adding to user category
-        new_user = User(email=email, name=name, password=unhashed_password)
+        new_user = User(email=email, name=name, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
@@ -216,7 +224,7 @@ def get_lstm_prediction(user_id):
     try:
         # Get data from react frontpage
         data = request.get_json()
-        if(data.get('ticker') == '' or data.get('ticket') is None or data.get('startDate') == '' or data.get('startDate') is None):
+        if(data.get('ticker') == '' or data.get('ticker') is None or data.get('startDate') == '' or data.get('startDate') is None):
             raise Exception("Ticket or Start Date not specified")
 
         ticker = data.get('ticker')
@@ -289,23 +297,25 @@ def get_lstm_prediction(user_id):
         latest_data_scaled = scaler.transform(latest_data.reshape(1, -1))
         next_day_prediction = lstm.predict(latest_data_scaled.reshape(1, 1, len(features)))
         next_day = df.index[-1] + pd.Timedelta(days=1)
-        # return next_day_prediction[0, 0]
+
         # Creating a JSON response with the prediction value
         response_data = {
-            "next_day_prediction": next_day_prediction[0, 0]
+            "next_day_prediction": float(next_day_prediction[0, 0])
         }
+
+        if(next_day_prediction is None):
+            raise Exception("User a older start date please")
 
         # Save prediction to the database
         new_prediction = StockPredict(
             user_id=user_id,
             ticker=ticker,
-            date=date,
+            date=start_date,
             timestamp=datetime.now(),
             predicted_value=next_day_prediction[0,0]
         )
         db.session.add(new_prediction)
         db.session.commit()
-
 
         # Returning the JSON response
         return jsonify(response_data)
@@ -316,7 +326,7 @@ def get_lstm_prediction(user_id):
 
 
 # READ - Get all predictions
-@app.route("/stockpredict/<user_id>", methods=["GET"])
+@app.route("/predict/<user_id>", methods=["GET"])
 def get_all_predictions(user_id):
     try:
         predictions = StockPredict.query.filter(
