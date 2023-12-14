@@ -6,7 +6,6 @@ import {
     Route,
     Navigate,
 } from "react-router-dom";
-import Home from "./pages";
 import About from "./pages/about";
 import Contact from "./pages/contact";
 import Predictor from "./pages/predictor";
@@ -22,7 +21,7 @@ function App() {
             <Router>
                 <Navbar />
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    {/* Directly render the About component for the /about route */}
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
                     {/* Restrict Predictor route based on isLoggedIn */}
