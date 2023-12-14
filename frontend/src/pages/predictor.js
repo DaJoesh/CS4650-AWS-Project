@@ -6,16 +6,38 @@ const Predictor = () => {
     const [tickerInput, setTickerInput] = useState('');
     const [dateInput, setDateInput] = useState('');
 
-    const handleSubmit = event => {
+    const handleSubmit = async (event) => {
         console.log('sumbitted');
         event.preventDefault();
         console.log(tickerInput);
         console.log(dateInput);
-        /*get data here using tickerInput and dateInput, need middleware here*/
+        try {
+            const response = await fetch('http://127.0.0.1:5000/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ticker: tickerInput,
+                    date: dateInput,
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setMessage(data.message); // Assuming the Flask server sends back a JSON with a 'message' key
+            } else {
+                setMessage('Failed to process data');
+            }
 
         setTickerInput('');
         setDateInput('');
     }
+    useEffect(() => {
+        fetch('/predict').then(res=>res.json()).then(data => {
+            setTickerInput(data.predictedValue)
+        })
+    })
     return (
         <div
             style={{
