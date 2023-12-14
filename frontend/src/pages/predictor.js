@@ -5,6 +5,7 @@ const Predictor = () => {
     const [message, setMessage] = useState('');
     const [tickerInput, setTickerInput] = useState('');
     const [dateInput, setDateInput] = useState('');
+    const [predictedValue, setPredictedValue] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -39,15 +40,17 @@ const Predictor = () => {
     };
 
     useEffect(() => {
-        fetch('/predict')
-            .then(res => res.json())
-            .then(data => {
-                setTickerInput(data.predictedValue);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }, []);
+        if(tickerInput!==''&&dateInput!==''){
+            fetch('/predict', {method: 'GET', headers: {'Content-Type':'application/json',},}) 
+                .then(res => res.json())
+                .then(data => {
+                    setPredictedValue(data); /*either data or data.next_day_prediction*/
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+            }
+    }, [tickerInput, dateInput]);
 
     return (
         <div
@@ -93,6 +96,7 @@ const Predictor = () => {
                 <h2>
                 Ticker: {tickerInput}
                 Date: {dateInput}
+                PredictedValue: {predictedValue}
 
                 </h2>
 
