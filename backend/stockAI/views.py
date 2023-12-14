@@ -16,6 +16,7 @@ from keras.layers import LSTM, Dense
 from keras.models import Sequential
 from keras.utils import plot_model
 import yfinance as yf
+from django.http import JsonResponse
 
 from rest_framework.views import APIView
 from . models import *
@@ -140,6 +141,7 @@ def get_lstm_prediction(ticker, start_date):
     next_day = df.index[-1] + pd.Timedelta(days=1)
     return next_day_prediction[0, 0]
 
+# Return predicted value, ticker, startdate and also stores the timestamp.
 def predict(request, display_type="All", specified_ticker=""):
     if request.method == 'POST':
         ticker = request.POST['ticker']
@@ -148,20 +150,15 @@ def predict(request, display_type="All", specified_ticker=""):
         # Get the LSTM prediction using script
         lstm_prediction = get_lstm_prediction(ticker, start_date)
 
+        timeStamp = datetime.now()
+
         # Save the prediction to the database
-        StockPrediction.objects.create(ticker=ticker, start_date=start_date, prediction=lstm_prediction)
+        StockPrediction.objects.create(ticker=ticker, start_date=start_date, prediction=lstm_prediction, timestamp=timeStamp)
 
-    # Retrieve predictions from the database
-    if display_type == "All":
-        predictions = StockPrediction.objects.all()
-    elif display_type == "Ordered":
-        predictions = StockPrediction.objects.all().order_by('ticker')
-    elif display_type == "Specific":
-        predictions = StockPrediction.objects.filter(ticker=specified_ticker)
-    else:
-        predictions = StockPrediction.objects.all()
 
-    return render(request, 'predict.html', {'predictions': predictions})
+
+        return JsonResponse({'prediction' : lstm_prediction })
+    return JsonResponse({'error': 'Invalid Request'}, status= 400)
 
     # return render(request, "predict.html")
 
@@ -195,4 +192,5 @@ class ReactView(APIView):
         serializer = ReactSerializer(data=request.data)
         if serializer.is_valid(raise_exception = True):
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status = 201)
+        return Response(serializer.errors, status= 400)
