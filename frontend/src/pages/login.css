@@ -1,0 +1,42 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .box {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .infoCard {
+    display: flex;
+    flex-direction: column;
+    padding: 20px; /* Add padding around the content */
+  }
+  
+  /* Adjust input width or add padding to input */
+  input {
+    width: calc(100% - 16px); /* Adjust input width minus padding */
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc; /* Add border to input fields */
+    border-radius: 4px; /* Optional: Add border radius */
+  }
+  
+  .horizontalButtonContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }

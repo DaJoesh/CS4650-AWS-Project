@@ -4,7 +4,7 @@ import {
     BrowserRouter as Router,
     Routes,
     Route,
-    Navigate, // Import Navigate from react-router-dom
+    Navigate,
 } from "react-router-dom";
 import Home from "./pages";
 import About from "./pages/about";
@@ -12,12 +12,10 @@ import Contact from "./pages/contact";
 import Predictor from "./pages/predictor";
 import Login from "./pages/login";
 
-// Create a context to manage user authentication state
 export const AuthContext = createContext();
 
 function App() {
-    // State to manage user login status
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     return (
         <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
@@ -27,10 +25,11 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
+                    {/* Restrict Predictor route based on isLoggedIn */}
                     <Route
-                        path="/about"
+                        path="/predictor"
                         element={
-                            isLoggedIn ? <About /> : <Navigate to="/login" />
+                            isLoggedIn ? <Predictor /> : <Navigate to="/login" />
                         }
                     />
                     <Route path="/login" element={<Login />} />

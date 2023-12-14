@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./login.css"; // Import the CSS file for styles
 
 export default function Login({ navigation }) {
   const [formData, setFormData] = useState({
@@ -22,25 +23,28 @@ export default function Login({ navigation }) {
 
   return (
     <div className="container">
-
-      <div className="infoCard">
-        <h2>Email</h2>
-        <input
-          type="text"
-          value={formData.email}
-          placeholder="johndoe@abc.com"
-          onChange={(e) => handleChange("email", e.target.value)}
-        />
-        <h2>Password</h2>
-        <input
-          type="password"
-          value={formData.password}
-          placeholder="MyPassword123"
-          onChange={(e) => handleChange("password", e.target.value)}
-        />
-        <div className="horizontalButtonContainer">
-          <button onClick={handleSubmit}>Log In</button>
-          <button onClick={() => navigation.navigate("Signup")}>Sign Up</button>
+      <div className="box">
+        <div className="infoCard">
+          <h2>Email</h2>
+          <input
+            type="text"
+            value={formData.email}
+            placeholder="johndoe@abc.com"
+            onChange={(e) => handleChange("email", e.target.value)}
+          />
+          <h2>Password</h2>
+          <input
+            type="password"
+            value={formData.password}
+            placeholder="MyPassword123"
+            onChange={(e) => handleChange("password", e.target.value)}
+          />
+          <div className="horizontalButtonContainer">
+            <button onClick={handleSubmit}>Log In</button>
+            <button onClick={() => navigation.navigate("Signup")}>
+              Sign Up
+            </button>
+          </div>
         </div>
       </div>
     </div>

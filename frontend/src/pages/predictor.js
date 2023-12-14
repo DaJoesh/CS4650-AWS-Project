@@ -9,49 +9,63 @@ const Predictor = () => {
     const [userHistory, setUserHistory] = useState('');
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        console.log('submitted');
-        console.log(tickerInput);
-        console.log(dateInput);
+    event.preventDefault();
+    console.log('submitted');
+    console.log(tickerInput);
+    console.log(dateInput);
 
-        try {
-            const response = await fetch('http://127.0.0.1:5000/predict', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ticker: tickerInput,
-                    date: dateInput,
-                }),
-            });
+    try {
+        const response = await fetch('http://127.0.0.1:5000/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                ticker: tickerInput,
+                date: dateInput,
+            }),
+        });
 
-            if (response.ok) {
-                const data = await response.json();
-                setMessage(data.message); // Assuming the Flask server sends back a JSON with a 'message' key
-            } else {
-                setMessage('Failed to process data');
-            }
-
-            setTickerInput('');
-            setDateInput('');
-        } catch (error) {
-            console.error('Error:', error);
+        if (response.ok) {
+            const data = await response.json();
+            setMessage(data.message); // Assuming the Flask server sends back a JSON with a 'message' key
+            fetchPredictions(); // Fetch predictions after submitting the form
+        } else {
+            setMessage('Failed to process data');
         }
-    };
 
-    useEffect(() => {
-        if(tickerInput!==''&&dateInput!==''){
-            fetch('/predict', {method: 'GET', headers: {'Content-Type':'application/json',},}) 
-                .then(res => res.json())
-                .then(data => {
-                    setPredictedValue(data); /*either data or data.next_day_prediction*/
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-            }
-    }, [tickerInput, dateInput]);
+        setTickerInput('');
+        setDateInput('');
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
+    const fetchPredictions = async () => {
+    try {
+        const response = await fetch(`/predict?ticker=${tickerInput}&date=${dateInput}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            setPredictedValue(data); // Assuming the response contains the predicted value
+        } else {
+            setPredictedValue('Failed to fetch prediction');
+        }
+    } catch (error) {
+        console.error('Error fetching prediction:', error);
+    }
+};
+
+useEffect(() => {
+    if (tickerInput !== '' && dateInput !== '') {
+        fetchPredictions();
+    }
+}, [tickerInput, dateInput]);
 
     useEffect(() => {
             fetch('/predict/${user_id}', {method: 'GET', headers: {'Content-Type':'application/json',},}) 
@@ -75,15 +89,20 @@ const Predictor = () => {
 
 /* userhistory will contain an array of objects each representing one of the five entries a user had*/
 
-    function formatDate(date) {
-        const dateSlices = date.split(" ");
-        const month =
-            monthNames.findIndex((element) => element.includes(dateSlices[2])) + 1;
-        const day = dateSlices[1];
-        const year = dateSlices[3].slice(2);
-        const formattedDate = `${month}/${day}/${year}`;
-        return formattedDate;
-    }
+    function formatDate(timestamp) {
+    const dateObject = new Date(timestamp * 1000); // Convert seconds to milliseconds
+
+    const month = dateObject.getMonth() + 1;
+    const day = dateObject.getDate();
+    const year = dateObject.getFullYear().toString().slice(-2);
+
+    // Padding single-digit day or month with leading zero if needed
+    const formattedMonth = month < 10 ? `0${month}` : `${month}`;
+    const formattedDay = day < 10 ? `0${day}` : `${day}`;
+
+    const formattedDate = `${formattedMonth}/${formattedDay}/${year}`;
+    return formattedDate;
+}
 
 
     return (
