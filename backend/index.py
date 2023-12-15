@@ -114,7 +114,7 @@ def signup():
             raise Exception("Email or password not specified")
 
         email = data.get('email')
-        name = data.get("name")
+        name = data.get("username")
         unhashed_password = data.get("password")
         hashed_password = bcrypt.generate_password_hash(unhashed_password).decode('utf-8') 
 
