@@ -47,7 +47,7 @@ const Predictor = () => {
         console.error('Error:', error);
     }
 };
-
+/*
 useEffect(() => {
     fetch(`http://127.0.0.1:5000/predict/${user_id}`)
       .then((response) => response.json())
@@ -62,7 +62,7 @@ useEffect(() => {
       .catch((err) => console.error(err));
   }, [predictedValue]);
 
-/* userhistory will contain an array of objects each representing one of the five entries a user had*/
+
 
     function formatDate(timestamp) {
         const dateObject = new Date(timestamp * 1000); // Convert seconds to milliseconds
@@ -151,6 +151,7 @@ useEffect(() => {
         );
     }
     else {
+        */
         return (
             <div
                 style={{
@@ -205,7 +206,7 @@ useEffect(() => {
             </div>
         );
     }
-}
+//}
     
 
  
