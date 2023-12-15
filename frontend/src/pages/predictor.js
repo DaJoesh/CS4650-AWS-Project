@@ -133,7 +133,7 @@ const formatDate = (timeStamp) => {
 
                     <h2 className="h2Style">Ticker: {displayTickerInput}</h2>
                     <h2 className="h2Style">Date: {displayDateInput}</h2>
-                    <h2 className="h2Style">PredictedValue: {predictedValue}</h2>
+                    <h2 className="h2Style">Predicted Value: {predictedValue}</h2>
 
                 </form>
                 <div style={{ display: 'flex' }}>
@@ -143,7 +143,7 @@ const formatDate = (timeStamp) => {
                     <ul>
                     <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
                     {userHistory.map((element, index) => (
-                         <div key={index} className="prediction-item" style={{ flexBasis: '30%', margin: '10px', border: '1px solid black', padding: '10px' }}>
+                         <div key={index} className="prediction-item" style={{ margin: '10px', border: '1px solid black', padding: '10px' }}>
                          <h3>Ticker</h3>
                          <p>{element.ticker}</p>
                          <h3>Trained From Start Date</h3>
@@ -204,7 +204,7 @@ const formatDate = (timeStamp) => {
 
                     <h2 className="h2Style">Ticker: {displayTickerInput}</h2>
                     <h2 className="h2Style">Date: {displayDateInput}</h2>
-                    <h2 className="h2Style">PredictedValue: {predictedValue}</h2>
+                    <h2 className="h2Style">Predicted Value: {predictedValue}</h2>
 
                 </form>
                 <div style={{ display: 'flex' }}>
