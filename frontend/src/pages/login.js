@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import "./login.css"; // Import the CSS file for styles
-import { useEffect } from "react";
-import App from "../App";
+import "./login.css"; // Import the CSS file for styles;
 
-export default function Login({ navigation }) {
-  /*const [startLogin, setStartLogin] = useState(false);*/
-  const navigate = useNavigate()
+export default function Login({ setIsLoggedIn }) {
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -27,43 +24,36 @@ export default function Login({ navigation }) {
     return validEmail;
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const email = formData.email;
     const password = formData.password;
     if (email.length < 1 || password.length < 1 || !validateEmail(email)) {
-      alert("Login fauled. Please check your credentials.")
-      return
+      alert("Login failed. Please check your credentials.");
+      return;
     }
-    setIsLoggedIn(true)
-  }
 
-  useEffect(() => {
-    async function UserLogin() {
-      try {
-        const response = await fetch("http://127.0.0.1:5000/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
-    
-        const result = await response.json();
-        console.log("Success:", result);
-        if (result && !result.hasOwnProperty('error')) {
-          localStorage.setItem("user_id", result.user_id);
-          navigate("/predictor")
-          return;
-        }
-        else {
-          alert("Login fauled. Please check your credentials.")
-        }
-      } catch (error) {
-        console.error("Error:", error);
+    try {
+      const response = await fetch("http://127.0.0.1:5000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      console.log("Success:", result);
+      if (result && !result.hasOwnProperty("error")) {
+        localStorage.setItem("user_id", result.user_id);
+        setIsLoggedIn(true); // Update isLoggedIn state upon successful login
+        navigate("/predictor");
+      } else {
+        alert("Login failed. Please check your credentials.");
       }
+    } catch (error) {
+      console.error("Error:", error);
     }
-    UserLogin()
-  }, [startLogin]);
+  }
 
   return (
     <div className="container">
@@ -85,9 +75,7 @@ export default function Login({ navigation }) {
           />
           <div className="horizontalButtonContainer">
             <button onClick={handleSubmit}>Log In</button>
-            <button onClick={() => navigate("/signup")}>
-              Sign Up
-            </button>
+            <button onClick={() => navigate("/signup")}>Sign Up</button>
           </div>
         </div>
       </div>

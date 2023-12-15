@@ -31,7 +31,11 @@ function App() {
                             isLoggedIn ? <Predictor /> : <Navigate to="/login" />
                         }
                     />
-                    <Route path="/login" element={<Login />} />
+                    {/* Pass setIsLoggedIn as a prop to Login component */}
+                    <Route
+                        path="/login"
+                        element={<Login setIsLoggedIn={setIsLoggedIn} />}
+                    />
                 </Routes>
             </Router>
         </AuthContext.Provider>
