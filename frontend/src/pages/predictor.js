@@ -58,7 +58,7 @@ useEffect(() => {
     fetch(`https://cs4650abdul.acgandhi.com/predict/${user_id}`)
       .then((response) => response.json())
       .then((data) => {
-        if(data && !("error" in data))
+        if(data && !("message" in data))
         {
             setUserHistory(data);
             console.log("in the if line 58")
