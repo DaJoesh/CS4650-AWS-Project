@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "./predictor.css";
-import { element } from "prop-types";
  
 const Predictor = () => {
     //const [message, setMessage] = useState('');
