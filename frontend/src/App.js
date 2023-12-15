@@ -14,7 +14,7 @@ import Login from "./pages/login";
 export const AuthContext = createContext();
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     return (
         <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>

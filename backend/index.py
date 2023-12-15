@@ -131,7 +131,6 @@ def signup():
         user_id = new_user.user_id
 
         return jsonify({"user_id" : user_id})
-        
 
     except Exception as e:
         error_message = {"error": f"Server Error: {str(e)}"}
@@ -223,12 +222,13 @@ def delete_user(user_id):
 def get_lstm_prediction(user_id):
     try:
         # Get data from react frontpage
+        print("HERE!")
         data = request.get_json()
-        if(data.get('ticker') == '' or data.get('ticker') is None or data.get('startDate') == '' or data.get('startDate') is None):
+        if(data.get('ticker') == '' or data.get('ticker') is None or data.get('date') == '' or data.get('date') is None):
             raise Exception("Ticket or Start Date not specified")
 
         ticker = data.get('ticker')
-        start_date = data.get("startDate")
+        start_date = data.get("date")
 
         end_date = date.today().strftime("%Y-%m-%d")
         data = yf.download(ticker, start=start_date, end=end_date)
@@ -283,9 +283,10 @@ def get_lstm_prediction(user_id):
         lstm.add(Dense(1))
         lstm.compile(loss='mean_squared_error', optimizer='adam')
 
+        print("HERE 3!")
         # %%
         #Training the Model
-        lstm.fit(X_train, Y_train, epochs=200, batch_size=8, verbose=1, shuffle=False)
+        lstm.fit(X_train, Y_train, epochs=10, batch_size=8, verbose=1, shuffle=False)
 
         # %%
         #Prediction
@@ -353,4 +354,4 @@ def get_all_predictions(user_id):
 
 # Run the Flask app in the main thread
 if __name__ == "__main__":
-    app.run(host="localhost", port=5000)
+    app.run(host="127.0.0.1", port=5000)
