@@ -15,7 +15,7 @@ import SignUp from "./pages/signup"; // Import the SignUp component
 export const AuthContext = createContext();
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
