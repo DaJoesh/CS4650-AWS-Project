@@ -1,42 +1,37 @@
-import React from "react";
-import { useState } from "react";
-import {
-    Nav,
-    NavLink,
-    Bars,
-    NavMenu,
-    NavBtn,
-    NavBtnLink,
-} from "./NavbarElements";
- 
+import { Nav, NavMenu, NavBtn, NavBtnLink, NavLink } from "./NavbarElements"; // Import custom styled components
+import { useContext } from "react";
+import { AuthContext } from "../../App";
+import { useNavigate } from "react-router-dom";
+
 const Navbar = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    return (
-        <>
-            <Nav>
-                <Bars />
- 
-                <NavMenu>
-                    <NavLink to="/about" >
-                        About
-                    </NavLink>
-                    <NavLink to="/contact">
-                        Contact Us
-                    </NavLink>
-                    {isLoggedIn && 
-                    <NavLink to="/predictor">Stock Predictor</NavLink>}
+  const handleLogout = () => {
+    localStorage.removeItem("user_id");
+    setIsLoggedIn(false);
+    navigate("/about");
+  };
 
-                </NavMenu>
-                <NavBtn>
-                    {/*link into the auth0 signin through this button*/}
-                    <NavBtnLink to="/login">
-                        Login
-                    </NavBtnLink>
-                </NavBtn>
-            </Nav>
-        </>
-    );
+  return (
+    <Nav>
+      <div className="logo">
+        <h1>Logo</h1>
+      </div>
+      <NavMenu>
+        <NavLink to="/about">About</NavLink>
+        <NavLink to="/contact">Contact Us</NavLink>
+        {isLoggedIn && <NavLink to="/predictor">Stock Predictor</NavLink>}
+      </NavMenu>
+      <NavBtn>
+        {isLoggedIn ? (
+          <button onClick={handleLogout}>Logout</button>
+        ) : (
+          <NavBtnLink to="/login">Login</NavBtnLink>
+        )}
+      </NavBtn>
+    </Nav>
+  );
 };
- 
+
 export default Navbar;

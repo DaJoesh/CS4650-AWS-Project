@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import "./predictor.css";
  
 const Predictor = () => {
     const [message, setMessage] = useState('');
@@ -7,12 +8,17 @@ const Predictor = () => {
     const [dateInput, setDateInput] = useState('');
     const [predictedValue, setPredictedValue] = useState('');
     const [userHistory, setUserHistory] = useState('');
+    const [displayTickerInput, setDisplayTickerInput] = useState('');
+    const [displayDateInput, setDisplayDateInput] = useState('');
 
     const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('submitted');
     console.log(tickerInput);
     console.log(dateInput);
+    setDisplayTickerInput(tickerInput);
+    setDisplayDateInput(dateInput);
+
 
     try {
         const response = await fetch('http://127.0.0.1:5000/predict/2', {
@@ -120,12 +126,9 @@ const Predictor = () => {
                 <br />
                 <button type = "submit">Submit</button>
 
-                <h2>
-                Ticker: {tickerInput}
-                Date: {dateInput}
-                PredictedValue: {predictedValue}
-
-                </h2>
+                <h2 className="h2Style">Ticker: {displayTickerInput}</h2>
+                <h2 className="h2Style">Date: {displayDateInput}</h2>
+                <h2 className="h2Style">PredictedValue: {predictedValue}</h2>
 
             </form>
             <div style={{ display: 'flex' }}>

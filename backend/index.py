@@ -114,7 +114,7 @@ def signup():
             raise Exception("Email or password not specified")
 
         email = data.get('email')
-        name = data.get("name")
+        name = data.get("username")
         unhashed_password = data.get("password")
         hashed_password = bcrypt.generate_password_hash(unhashed_password).decode('utf-8') 
 
@@ -286,7 +286,7 @@ def get_lstm_prediction(user_id):
         print("HERE 3!")
         # %%
         #Training the Model
-        lstm.fit(X_train, Y_train, epochs=200, batch_size=8, verbose=1, shuffle=False)
+        lstm.fit(X_train, Y_train, epochs=10, batch_size=8, verbose=1, shuffle=False)
 
         # %%
         #Prediction
