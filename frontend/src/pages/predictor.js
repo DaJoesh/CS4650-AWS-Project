@@ -35,9 +35,9 @@ const Predictor = () => {
         if (response.ok) {
             const data = await response.json();
             setPredictedValue(data.next_day_prediction); // Update predicted value in state
-            setMessage('Prediction retrieved successfully');
+            //setMessage('Prediction retrieved successfully');
         } else {
-            setMessage('Failed to process data');
+            //setMessage('Failed to process data');
         }
 
         setTickerInput('');
