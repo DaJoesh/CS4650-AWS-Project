@@ -1,15 +1,14 @@
 import React from "react";
-import { useState, 
-    //useEffect 
-} from "react";
+import { useState, useEffect } from "react";
 import "./predictor.css";
+import { element } from "prop-types";
  
 const Predictor = () => {
     //const [message, setMessage] = useState('');
     const [tickerInput, setTickerInput] = useState('');
     const [dateInput, setDateInput] = useState('');
     const [predictedValue, setPredictedValue] = useState('');
-    //const [userHistory, setUserHistory] = useState('');
+    const [userHistory, setUserHistory] = useState('');
     const [displayTickerInput, setDisplayTickerInput] = useState('');
     const [displayDateInput, setDisplayDateInput] = useState('');
     const user_id = localStorage.getItem("user_id");
@@ -38,8 +37,14 @@ const Predictor = () => {
         if (response.ok) {
             const data = await response.json();
             setPredictedValue(data.next_day_prediction); // Update predicted value in state
-            //setMessage('Prediction retrieved successfully');
-        } else {
+            fetch(`http://127.0.0.1:5000/predict/${user_id}`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        setUserHistory(data);
+                        console.log("Updated Prediction History:", data);
+                    })
+                    .catch((err) => console.error(err));
+            } else {
             //setMessage('Failed to process data');
         }
 
@@ -49,7 +54,7 @@ const Predictor = () => {
         console.error('Error:', error);
     }
 };
-/*
+
 useEffect(() => {
     fetch(`http://127.0.0.1:5000/predict/${user_id}`)
       .then((response) => response.json())
@@ -64,22 +69,26 @@ useEffect(() => {
       .catch((err) => console.error(err));
   }, [predictedValue]);
 
+/* userhistory will contain an array of objects each representing one of the five entries a user had*/
 
 
-    function formatDate(timestamp) {
-        const dateObject = new Date(timestamp * 1000); // Convert seconds to milliseconds
+   
+const addDay = (timeStamp) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const oneDay = 24 * 60 * 60 * 1000; // Milliseconds in a day
 
-        const month = dateObject.getMonth() + 1;
-        const day = dateObject.getDate();
-        const year = dateObject.getFullYear().toString().slice(-2);
+    const date = new Date(timeStamp);
+    date.setTime(date.getTime() + oneDay); // Add one day
 
-        // Padding single-digit day or month with leading zero if needed
-        const formattedMonth = month < 10 ? `0${month}` : `${month}`;
-        const formattedDay = day < 10 ? `0${day}` : `${day}`;
+    return date.toLocaleDateString(undefined, options);
+};
 
-        const formattedDate = `${formattedMonth}/${formattedDay+1}/${year}`;
-        return formattedDate;
-    }
+const formatDate = (timeStamp) => {
+    const options = { year: "numeric", month: "long", day: "numeric"}
+    return new Date(timeStamp).toLocaleDateString(undefined, options)
+  }
+
+
 
     if(userHistory) {
         return (
@@ -133,27 +142,26 @@ useEffect(() => {
                         Prediction History
                     </h2>
                     <ul>
-                        {userHistory.map((element) => {
-                            return (
-                                <>
-                                    <h3>Ticker</h3>
-                                    <h6>{element.ticker}</h6>
-                                    <h3>Trained From Start Date</h3>
-                                    <h6>{element.date}</h6>
-                                    <h3>Predicted Value</h3>
-                                    <h6>{element.predicted_value}</h6>
-                                    <h3>Date Predicted For</h3>
-                                    <h6>{formatDate(element.timestamp)}</h6>
-                                </>
-                            )
-                        })}
-                    </ul>
+                    <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    {userHistory.map((element, index) => (
+                         <div key={index} className="prediction-item" style={{ flexBasis: '30%', margin: '10px', border: '1px solid black', padding: '10px' }}>
+                         <h3>Ticker</h3>
+                         <p>{element.ticker}</p>
+                         <h3>Trained From Start Date</h3>
+                         <p>{formatDate(element.date)}</p>
+                         <h3>Predicted Value</h3>
+                         <p>{element.predicted_value}</p>
+                         <h3>Date Predicted For</h3>
+                         <p>{addDay(element.timestamp)}</p>
+                     </div>
+                    ))}
+                    </div>
+                </ul>
                 </div>
             </div>
         );
     }
     else {
-        */
         return (
             <div
                 style={{
@@ -208,7 +216,7 @@ useEffect(() => {
             </div>
         );
     }
-//}
+}
     
 
  
