@@ -37,7 +37,7 @@ const Predictor = () => {
         if (response.ok) {
             const data = await response.json();
             setPredictedValue(data.next_day_prediction); // Update predicted value in state
-            fetch(`http://127.0.0.1:5000/predict/${user_id}`)
+            fetch(`http://54.183.100.235/predict/${user_id}`)
                     .then((response) => response.json())
                     .then((data) => {
                         setUserHistory(data);
@@ -56,7 +56,7 @@ const Predictor = () => {
 };
 
 useEffect(() => {
-    fetch(`http://127.0.0.1:5000/predict/${user_id}`)
+    fetch(`http://54.183.100.235/predict/${user_id}`)
       .then((response) => response.json())
       .then((data) => {
         if(data && !("error" in data))
