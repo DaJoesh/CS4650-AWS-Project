@@ -24,7 +24,7 @@ const Predictor = () => {
 
 
     try {
-        const response = await fetch(`http://127.0.0.1:5000/predict/${user_id}`, {
+        const response = await fetch(`http://54.183.100.235/predict/${user_id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

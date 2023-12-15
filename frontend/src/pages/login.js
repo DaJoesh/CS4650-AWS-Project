@@ -33,7 +33,7 @@ export default function Login({ setIsLoggedIn }) {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/login", {
+      const response = await fetch("http://54.183.100.235/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
