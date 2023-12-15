@@ -53,11 +53,15 @@ useEffect(() => {
     fetch(`http://127.0.0.1:5000/predict/${user_id}`)
       .then((response) => response.json())
       .then((data) => {
-        setUserHistory(data);
-        console.log("This is from fetch", data);
+        if(data && !("error" in data))
+        {
+            setUserHistory(data);
+            console.log("in the if line 58")
+        }
+        console.log("This is from fetch in prediction history", data);
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, [predictedValue]);
 
 /* userhistory will contain an array of objects each representing one of the five entries a user had*/
 

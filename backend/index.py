@@ -335,7 +335,7 @@ def get_all_predictions(user_id):
         ).order_by(StockPredict.timestamp.desc()).limit(5).all()
     
         if not predictions:
-            return jsonify({"message": "No predictions found for this user"})
+            return jsonify({"error": "No predictions found for this user"})
         
         prediction_list = []
         for prediction in predictions:
