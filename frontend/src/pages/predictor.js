@@ -10,6 +10,7 @@ const Predictor = () => {
     const [userHistory, setUserHistory] = useState('');
     const [displayTickerInput, setDisplayTickerInput] = useState('');
     const [displayDateInput, setDisplayDateInput] = useState('');
+    const user_id = localStorage.getItem("user_id");
 
     const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,7 +22,7 @@ const Predictor = () => {
 
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/predict/2', {
+        const response = await fetch(`http://127.0.0.1:5000/predict/${user_id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
