@@ -1,5 +1,7 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, 
+    //useEffect 
+} from "react";
 import "./predictor.css";
  
 const Predictor = () => {
@@ -7,7 +9,7 @@ const Predictor = () => {
     const [tickerInput, setTickerInput] = useState('');
     const [dateInput, setDateInput] = useState('');
     const [predictedValue, setPredictedValue] = useState('');
-    const [userHistory, setUserHistory] = useState('');
+    //const [userHistory, setUserHistory] = useState('');
     const [displayTickerInput, setDisplayTickerInput] = useState('');
     const [displayDateInput, setDisplayDateInput] = useState('');
     const user_id = localStorage.getItem("user_id");
