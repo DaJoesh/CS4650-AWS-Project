@@ -11,6 +11,7 @@ const Predictor = () => {
     const [displayTickerInput, setDisplayTickerInput] = useState('');
     const [displayDateInput, setDisplayDateInput] = useState('');
     const user_id = localStorage.getItem("user_id")
+    const user_id = localStorage.getItem("user_id");
 
     const handleSubmit = async (event) => {
     event.preventDefault();
