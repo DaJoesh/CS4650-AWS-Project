@@ -43,19 +43,19 @@ const About = () => {
                     <h2>Development Team</h2>
                     <p>
                     <strong>Abdul Kalam Syed</strong><br />
-                    <strong>Role:</strong> [Role]
+                    <strong>Role: </strong> Frontend and Middleware
                     </p>
                     <p>
                     <strong>Drake Fafard</strong><br />
-                    <strong>Role:</strong> [Role]
+                    <strong>Role: </strong> Backend and Presentation
                     </p>
                     <p>
                     <strong>Joshua Jenkins</strong><br />
-                    <strong>Role:</strong> [Role]
+                    <strong>Role: </strong> Team Lead and Web Services
                     </p>
                     <p>
                     <strong>Michael Tran</strong><br />
-                    <strong>Role:</strong> [Role]
+                    <strong>Role: </strong> Frontend and Middleware
                     </p>
                 </section>
 
@@ -65,13 +65,8 @@ const About = () => {
                 </section>
 
                 <section>
-                    <h2>Future Plans</h2>
-                    <p>[Describe the future plans for the project]</p>
-                </section>
-
-                <section>
                     <h2>Contact Information</h2>
-                    <p>[Provide contact information for the project lead or team]</p>
+                    <p>earodriguez@cpp.edu</p>
                 </section>
 
             
