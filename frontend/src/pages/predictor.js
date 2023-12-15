@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "./predictor.css";
-import { element } from "prop-types";
  
 const Predictor = () => {
     //const [message, setMessage] = useState('');
@@ -67,7 +66,7 @@ useEffect(() => {
         console.log("This is from fetch in prediction history", data);
       })
       .catch((err) => console.error(err));
-  }, [predictedValue]);
+  }, [user_id,predictedValue]);
 
 /* userhistory will contain an array of objects each representing one of the five entries a user had*/
 
