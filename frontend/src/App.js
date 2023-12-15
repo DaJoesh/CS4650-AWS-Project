@@ -31,7 +31,8 @@ function App() {
             path="/predictor"
             element={isLoggedIn ? <Predictor /> : <Navigate to="/login" />}
           />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/signup" element={<SignUp setIsLoggedIn={setIsLoggedIn} />} />
 
         </Routes>
       </Router>

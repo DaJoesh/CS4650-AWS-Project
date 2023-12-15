@@ -27,7 +27,6 @@ export default function Signup({ setIsLoggedIn }) {
   }
 
   async function handleSubmit() {
-    const username = formData.username;
     const email = formData.email;
     const password = formData.password;
     if (email.length < 1 || password.length < 1 || !validateEmail(email)) {
@@ -36,7 +35,7 @@ export default function Signup({ setIsLoggedIn }) {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/signup;", {
+      const response = await fetch("http://127.0.0.1:5000/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -84,8 +83,7 @@ export default function Signup({ setIsLoggedIn }) {
             onChange={(e) => handleChange("password", e.target.value)}
           />
           <div className="horizontalButtonContainer">
-            <button onClick={handleSubmit}>Log In</button>
-            <button onClick={() => navigate("/signup")}>Sign Up</button>
+            <button onClick={handleSubmit}>Sign Up</button>
           </div>
         </div>
       </div>
