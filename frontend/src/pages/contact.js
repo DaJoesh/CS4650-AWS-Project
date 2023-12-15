@@ -12,6 +12,8 @@ const About = () => {
         >
             <h1>
                 Email us at: earodriguez@cpp.edu
+            </h1>
+            <h1>
                 Call us at: 909-869-3451
             </h1>
         </div>

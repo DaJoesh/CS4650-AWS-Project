@@ -29,11 +29,11 @@ const About = () => {
                 <section>
                     <h2>Technologies Used</h2>
                     <p>
-                    This project was built using React as the frontend to handle webpage displays, Django as the backend to communicate between the database and the GUI, and MySQL as the database management and hosting software. This is all hosted on Amazon Web Services EC2.
+                    This project was built using React as the frontend to handle webpage displays, Flask as the middleware to communicate between the database and the GUI, and MySQL as the database management and hosting software. This is all hosted on Amazon Web Services EC2.
                     </p>
                     <ul>
                     <li><strong>Front-End:</strong> React</li>
-                    <li><strong>Back-End:</strong>Flask</li>
+                    <li><strong>Middleware:</strong>Flask</li>
                     <li><strong>Database:</strong> MySQL</li>
                     <li><strong>Cloud Services:</strong> AWS</li>
                     </ul>
