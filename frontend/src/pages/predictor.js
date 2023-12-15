@@ -49,30 +49,6 @@ const Predictor = () => {
     }
 };
 
-<<<<<<< Updated upstream
-    useEffect(() => {
-            fetch(`http://127.0.0.1:5000/predict/${user_id}`, {
-                method: 'GET',
-             headers: {
-                'Content-Type':'application/json',},}) 
-                .then(response => response.json())
-                .then(data => {
-                    const history = data.map(predictionInput => {
-                        const formattedDate = formatDate(predictionInput.timestamp);
-                        return {
-                            ticker: predictionInput.ticker,
-                            date: predictionInput.date,
-                            predicted_value: predictionInput.predicted_value,
-                            timestamp: formattedDate
-                        };
-                    });
-                    setUserHistory(history);
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-            }, []);
-=======
 useEffect(() => {
     fetch(`http://127.0.0.1:5000/predict/${user_id}`)
       .then((response) => response.json())
@@ -82,7 +58,6 @@ useEffect(() => {
       })
       .catch((err) => console.error(err));
   }, []);
->>>>>>> Stashed changes
 
 /* userhistory will contain an array of objects each representing one of the five entries a user had*/
 
