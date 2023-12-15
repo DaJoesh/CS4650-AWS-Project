@@ -33,7 +33,7 @@ const About = () => {
                     </p>
                     <ul>
                     <li><strong>Front-End:</strong> React</li>
-                    <li><strong>Back-End:</strong> Django</li>
+                    <li><strong>Back-End:</strong>Flask</li>
                     <li><strong>Database:</strong> MySQL</li>
                     <li><strong>Cloud Services:</strong> AWS</li>
                     </ul>

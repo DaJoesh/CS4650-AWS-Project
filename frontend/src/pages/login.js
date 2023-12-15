@@ -1,54 +1,84 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import "./login.css"; // Import the CSS file for styles;
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function Login({ setIsLoggedIn }) {
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Perform authentication logic here (e.g., API call, validation)
-    console.log("Email:", email);
-    console.log("Password:", password);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-    // Reset fields after handling login
-    setEmail("");
-    setPassword("");
-  };
+  function handleChange(name, value) {
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  }
 
   function validateEmail(email) {
     const mail = String(email);
     const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.(com|edu)$/;
-    return emailRegex.test(mail);
+    const validEmail = emailRegex.test(mail);
+    return validEmail;
+  }
+
+  async function handleSubmit() {
+    const email = formData.email;
+    const password = formData.password;
+    if (email.length < 1 || password.length < 1 || !validateEmail(email)) {
+      alert("Login failed. Please check your credentials.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:5000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      console.log("Success:", result);
+      if (result && !result.hasOwnProperty("error")) {
+        localStorage.setItem("user_id", result.user_id);
+        setIsLoggedIn(true); // Update isLoggedIn state upon successful login
+        navigate("/predictor");
+      } else {
+        alert("Login failed. Please check your credentials.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
+    <div className="container">
+      <div className="box">
+        <div className="infoCard">
+          <h2>Email</h2>
+          <input
+            type="text"
+            value={formData.email}
+            placeholder="johndoe@abc.com"
+            onChange={(e) => handleChange("email", e.target.value)}
+          />
+          <h2>Password</h2>
+          <input
+            type="password"
+            value={formData.password}
+            placeholder="MyPassword123"
+            onChange={(e) => handleChange("password", e.target.value)}
+          />
+          <div className="horizontalButtonContainer">
+            <button onClick={handleSubmit}>Log In</button>
+            <button onClick={() => navigate("/signup")}>Sign Up</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default Login;
+}
