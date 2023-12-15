@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import "./predictor.css";
  
 const Predictor = () => {
-    const [message, setMessage] = useState('');
+    //const [message, setMessage] = useState('');
     const [tickerInput, setTickerInput] = useState('');
     const [dateInput, setDateInput] = useState('');
     const [predictedValue, setPredictedValue] = useState('');
@@ -48,7 +48,7 @@ const Predictor = () => {
 };
 
     useEffect(() => {
-            fetch('http://127.0.0.1:5000/predict/${user_id}', {method: 'GET', headers: {'Content-Type':'application/json',},}) 
+            fetch(`http://127.0.0.1:5000/predict/${user_id}`, {method: 'GET', headers: {'Content-Type':'application/json',},}) 
                 .then(res => res.json())
                 .then(data => {
                     const history = data.map(predictionInput => {
