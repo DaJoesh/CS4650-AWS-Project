@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "./predictor.css";
+import { element } from "prop-types";
  
 const Predictor = () => {
     //const [message, setMessage] = useState('');
@@ -48,6 +49,7 @@ const Predictor = () => {
     }
 };
 
+<<<<<<< Updated upstream
     useEffect(() => {
             fetch(`http://127.0.0.1:5000/predict/${user_id}`, {
                 method: 'GET',
@@ -70,78 +72,161 @@ const Predictor = () => {
                     console.error('Error fetching data:', error);
                 });
             }, []);
+=======
+useEffect(() => {
+    fetch(`http://127.0.0.1:5000/predict/${user_id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUserHistory(data);
+        console.log("This is from fetch", data);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+>>>>>>> Stashed changes
 
 /* userhistory will contain an array of objects each representing one of the five entries a user had*/
 
     function formatDate(timestamp) {
-    const dateObject = new Date(timestamp * 1000); // Convert seconds to milliseconds
+        const dateObject = new Date(timestamp * 1000); // Convert seconds to milliseconds
 
-    const month = dateObject.getMonth() + 1;
-    const day = dateObject.getDate();
-    const year = dateObject.getFullYear().toString().slice(-2);
+        const month = dateObject.getMonth() + 1;
+        const day = dateObject.getDate();
+        const year = dateObject.getFullYear().toString().slice(-2);
 
-    // Padding single-digit day or month with leading zero if needed
-    const formattedMonth = month < 10 ? `0${month}` : `${month}`;
-    const formattedDay = day < 10 ? `0${day}` : `${day}`;
+        // Padding single-digit day or month with leading zero if needed
+        const formattedMonth = month < 10 ? `0${month}` : `${month}`;
+        const formattedDay = day < 10 ? `0${day}` : `${day}`;
 
-    const formattedDate = `${formattedMonth}/${formattedDay}/${year}`;
-    return formattedDate;
-}
+        const formattedDate = `${formattedMonth}/${formattedDay+1}/${year}`;
+        return formattedDate;
+    }
 
+    if(userHistory) {
+        return (
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: 'column',
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <h1>
+                    Stock Prediction
+                </h1>
+                <section>
+                        <h2>How To Use</h2>
+                        <ul>
+                            <li>Enter the 4 Letter Ticker into the Ticker box for the stock.</li>
+                            <li>Select the starting date from which data on this stock will be analyzed.</li>
+                            <li>Click submit to send the request to the Stock Predictor AI</li>
+                        </ul>
+                    </section>
+                <form onSubmit = {handleSubmit}>
+                    <input
+                        id="ticker_input"
+                        name="ticker_input"
+                        type="text"
+                        placeholder="Ticker"
+                        onChange={event=> setTickerInput(event.target.value)}
+                        value={tickerInput}
+                        />
+                    <input
+                        id="date_input"
+                        name="date_input"
+                        type="date"
+                        placeholder="Date"
+                        onChange={event=> setDateInput(event.target.value)}
+                        value={dateInput}
+                        />
+                    <br />
+                    <button type = "submit">Submit</button>
 
-    return (
-        <div
-            style={{
-                display: "flex",
-                flexDirection: 'column',
-                justifyContent: "flex-start",
-                alignItems: "center",
-                height: "100vh",
-            }}
-        >
-            <h1>
-                Stock Prediction
-            </h1>
-            <section>
-                    <h2>How To Use</h2>
+                    <h2 className="h2Style">Ticker: {displayTickerInput}</h2>
+                    <h2 className="h2Style">Date: {displayDateInput}</h2>
+                    <h2 className="h2Style">PredictedValue: {predictedValue}</h2>
+
+                </form>
+                <div style={{ display: 'flex' }}>
+                    <h2>
+                        Prediction History
+                    </h2>
                     <ul>
-                        <li>Enter the 4 Letter Ticker into the Ticker box for the stock.</li>
-                        <li>Select the starting date from which data on this stock will be analyzed.</li>
-                        <li>Click submit to send the request to the Stock Predictor AI</li>
+                        {userHistory.map((element) => {
+                            return (
+                                <>
+                                    <h3>Ticker</h3>
+                                    <h6>{element.ticker}</h6>
+                                    <h3>Trained From Start Date</h3>
+                                    <h6>{element.date}</h6>
+                                    <h3>Predicted Value</h3>
+                                    <h6>{element.predicted_value}</h6>
+                                    <h3>Date Predicted For</h3>
+                                    <h6>{formatDate(element.timestamp)}</h6>
+                                </>
+                            )
+                        })}
                     </ul>
-                </section>
-            <form onSubmit = {handleSubmit}>
-                <input
-                    id="ticker_input"
-                    name="ticker_input"
-                    type="text"
-                    placeholder="Ticker"
-                    onChange={event=> setTickerInput(event.target.value)}
-                    value={tickerInput}
-                    />
-                <input
-                    id="date_input"
-                    name="date_input"
-                    type="date"
-                    placeholder="Date"
-                    onChange={event=> setDateInput(event.target.value)}
-                    value={dateInput}
-                    />
-                <br />
-                <button type = "submit">Submit</button>
-
-                <h2 className="h2Style">Ticker: {displayTickerInput}</h2>
-                <h2 className="h2Style">Date: {displayDateInput}</h2>
-                <h2 className="h2Style">PredictedValue: {predictedValue}</h2>
-
-            </form>
-            <div style={{ display: 'flex' }}>
-                <ul>
-                    <li> prediction.ticker  -  prediction.prediction {userHistory} </li>
-                </ul>
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
+    else {
+        return (
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: 'column',
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <h1>
+                    Stock Prediction
+                </h1>
+                <section>
+                        <h2>How To Use</h2>
+                        <ul>
+                            <li>Enter the 4 Letter Ticker into the Ticker box for the stock.</li>
+                            <li>Select the starting date from which data on this stock will be analyzed.</li>
+                            <li>Click submit to send the request to the Stock Predictor AI</li>
+                        </ul>
+                    </section>
+                <form onSubmit = {handleSubmit}>
+                    <input
+                        id="ticker_input"
+                        name="ticker_input"
+                        type="text"
+                        placeholder="Ticker"
+                        onChange={event=> setTickerInput(event.target.value)}
+                        value={tickerInput}
+                        />
+                    <input
+                        id="date_input"
+                        name="date_input"
+                        type="date"
+                        placeholder="Date"
+                        onChange={event=> setDateInput(event.target.value)}
+                        value={dateInput}
+                        />
+                    <br />
+                    <button type = "submit">Submit</button>
+
+                    <h2 className="h2Style">Ticker: {displayTickerInput}</h2>
+                    <h2 className="h2Style">Date: {displayDateInput}</h2>
+                    <h2 className="h2Style">PredictedValue: {predictedValue}</h2>
+
+                </form>
+                <div style={{ display: 'flex' }}>
+                    <h1>
+                        Prediction History
+                    </h1>
+                </div>
+            </div>
+        );
+    }
 }
     
 

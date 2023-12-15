@@ -286,7 +286,7 @@ def get_lstm_prediction(user_id):
         print("HERE 3!")
         # %%
         #Training the Model
-        lstm.fit(X_train, Y_train, epochs=200, batch_size=8, verbose=1, shuffle=False)
+        lstm.fit(X_train, Y_train, epochs=100, batch_size=8, verbose=1, shuffle=False)
 
         # %%
         #Prediction
