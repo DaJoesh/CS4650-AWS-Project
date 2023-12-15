@@ -22,7 +22,7 @@ const Predictor = () => {
 
 
     try {
-        const response = await fetch(`http://54.183.100.235/predict/${user_id}`, {
+        const response = await fetch(`https://cs4650abdul.acgandhi.com/predict/${user_id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const Predictor = () => {
         if (response.ok) {
             const data = await response.json();
             setPredictedValue(data.next_day_prediction); // Update predicted value in state
-            fetch(`http://54.183.100.235/predict/${user_id}`)
+            fetch(`https://cs4650abdul.acgandhi.com/predict/${user_id}`)
                     .then((response) => response.json())
                     .then((data) => {
                         setUserHistory(data);
@@ -55,7 +55,7 @@ const Predictor = () => {
 };
 
 useEffect(() => {
-    fetch(`http://54.183.100.235/predict/${user_id}`)
+    fetch(`https://cs4650abdul.acgandhi.com/predict/${user_id}`)
       .then((response) => response.json())
       .then((data) => {
         if(data && !("error" in data))
